@@ -1,0 +1,148 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Login</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f2f2f2;
+        }
+
+        .login-container {
+            width: 350px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        #message {
+            text-align: center;
+            margin-top: 15px;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="login-container">
+    <h2>User Login</h2>
+
+    <form id="loginForm">
+        <input
+            type="text"
+            id="username"
+            placeholder="Enter username"
+            required
+        >
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter password"
+            required
+        >
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p id="message"></p>
+</div>
+
+<script>
+    const loginForm = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+
+    // Example users stored in localStorage
+    // This is only for demonstration.
+    if (!localStorage.getItem("users")) {
+        const users = [
+            {
+                username: "harini",
+                password: "12345"
+            }
+        ];
+
+        localStorage.setItem("users", JSON.stringify(users));
+    }
+
+    loginForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value;
+
+        // Get users from localStorage
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+
+        // Find matching user
+        const user = users.find(function(user) {
+            return user.username === username &&
+                   user.password === password;
+        });
+
+        if (user) {
+
+            // Store logged-in user in sessionStorage
+            sessionStorage.setItem(
+                "loggedInUser",
+                JSON.stringify({
+                    username: user.username
+                })
+            );
+
+            // Redirect to dashboard
+            window.location.href = "dashboard.html";
+
+        } else {
+            message.textContent = "Invalid username or password.";
+        }
+    });
+</script>
+
+</body>
+</html>
+```
+  
